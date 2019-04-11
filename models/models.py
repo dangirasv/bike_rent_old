@@ -15,10 +15,12 @@ class bike_rent(models.Model):
     rent_stop = fields.Date("End of Rent Date", default=fields.Date.today)
     notes = fields.Text("Rent Notes")
     image = fields.Binary("Bike Picture")
+    name = fields.Char("Model name, mainly used for UI purposes", default='Rent Info')
 
 
 """
 Q:  classical view syntax vs new one
     list vs tree
-    specific field for prices? 
+    specific field for prices?
+    individual configuration files
 """
