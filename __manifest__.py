@@ -7,7 +7,10 @@
     'website': "https://www.versada.eu",
     'category': 'Uncategorized',
     'version': '12.0.1.0',
-    'depends': ['base'],
+    'depends': [
+        'base',
+        'product',
+    ],
     'data': [
         'security/ir.model.access.csv',
         'views/views.xml',
