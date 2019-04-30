@@ -8,7 +8,8 @@ class BikeRent(models.Model):
     _name = 'bike.rent'
     _description = 'basic class to hold bike rent info'
 
-    bike_id = fields.Many2one('product.product', string='Bike Model Name', required=True)
+    bike_id = fields.Many2one('product.product', string='Bike Model Name', required=True,
+                              domain=[('is_bike', '=', True)])
     bike_description = fields.Text(related='bike_id.description', string='Bike Description', store=True)
     image = fields.Binary(related='bike_id.image', string='Bike Picture', store=True)
     partner_id = fields.Many2one('res.partner', string='Customer Name')
@@ -29,7 +30,13 @@ class BikeRent(models.Model):
 
     @api.onchange('rent_start', 'rent_stop')
     def _onchange_verify_stop_date(self):
-        if not self.rent_stop:
-            return
-        elif self.rent_stop < self.rent_start:
+        if self.rent_stop and self.rent_stop < self.rent_start:
             raise exceptions.UserError('End of Rent Time cannot be earlier than Rent Start Time')
+
+
+class BikeTemplate(models.Model):
+    _inherit = 'product.template'
+
+    is_bike = fields.Boolean(string="It's a Bike", default=False)
+    manufacturer = fields.Char(string='Manufacturer')
+    model = fields.Char(string='Model')

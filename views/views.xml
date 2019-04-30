@@ -66,6 +66,22 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="bike_product_form_view">
+            <field name="name">Bike Template</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <div name="options" position="inside">
+                    <field name="is_bike"/>
+                    <label for="is_bike"/>
+                </div>
+                <field name="lst_price" position="before">
+                    <field name="manufacturer" attrs="{'invisible': [('is_bike', '=', False)]}"/>
+                    <field name="model" attrs="{'invisible': [('is_bike', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="bike_rent.action_window">
             <field name="name">Bike Rent</field>
             <field name="res_model">bike.rent</field>
@@ -81,5 +97,6 @@
 
         <menuitem name="Bike Rent Main" id="bike_rent.menu_1_action" parent="bike_rent.menu_1"
                   action="bike_rent.action_window"/>
+
     </data>
 </odoo>
