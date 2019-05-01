@@ -57,8 +57,7 @@
                     <filter name="active_current" string="Currently Rented Bikes"
                             domain="[('rent_stop', '&gt;=', (datetime.date.today()).strftime('%Y-%m-%d')),
                             ('rent_start', '&lt;=', (datetime.date.today()).strftime('%Y-%m-%d'))]"/>
-                    <filter name="free_rent" string="Free Rent"
-                            domain="[('price', '=', '0')]"/>
+                    <filter name="free_rent" string="Free Rent" domain="[('price', '=', '0')]"/>
                     <group string="Group By">
                         <filter name="by_bike_id" string="Bike Model" context="{'group_by': 'bike_id'}"/>
                     </group>
@@ -82,6 +81,20 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="bike_user_form_view">
+            <field name="name">Bike Users</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button type="action" name="%(bike_rent.action_window)d" string="User Rent History"
+                            class="oe_stat_button" icon="fa-address-card" context="{'search_default_partner_id': id, 'search_default_price': '0'}"/>
+                    <button type="action" name="%(bike_rent.action_window)d" string="Company Rent History"
+                            class="oe_stat_button" icon="fa-address-card" context="{'search_default_partner_id': parent_id}"/>
+                </div>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="bike_rent.action_window">
             <field name="name">Bike Rent</field>
             <field name="res_model">bike.rent</field>
@@ -91,12 +104,32 @@
             </field>
         </record>
 
+        <record model="ir.actions.act_window" id="bike_rent.users">
+            <field name="name">Users</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="bike_rent.products">
+            <field name="name">Products</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <menuitem name="Bike Rent" id="bike_rent.menu_root"/>
 
         <menuitem name="Bike Rent" id="bike_rent.menu_1" parent="bike_rent.menu_root"/>
 
+        <menuitem name="Data" id="bike_rent.menu_2" parent="bike_rent.menu_root"/>
+
         <menuitem name="Bike Rent Main" id="bike_rent.menu_1_action" parent="bike_rent.menu_1"
                   action="bike_rent.action_window"/>
+
+        <menuitem name="Users" id="bike_rent.menu_2_users" parent="bike_rent.menu_2"
+                  action="bike_rent.users"/>
+
+        <menuitem name="Products" id="bike_rent.menu_2_products" parent="bike_rent.menu_2"
+                  action="bike_rent.products"/>
 
     </data>
 </odoo>
