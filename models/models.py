@@ -7,6 +7,7 @@ from odoo import exceptions
 class BikeRent(models.Model):
     _name = 'bike.rent'
     _description = 'basic class to hold bike rent info'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     bike_id = fields.Many2one('product.product', string='Bike Model Name', required=True,
                               domain=[('is_bike', '=', True)])
