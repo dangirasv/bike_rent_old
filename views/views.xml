@@ -24,13 +24,18 @@
                                 <field name="rent_time"/>
                                 <field name="notes"/>
                             </group>
+
+                        </div>
+                    </div>
+                    <notebook>
+                        <page string="Chatter">
                             <div class="oe_chatter">
                                 <field name="message_follower_ids" widget="mail_followers"/>
                                 <field name="activity_ids" widget="mail_activity"/>
                                 <field name="message_ids" widget="mail_thread"/>
                             </div>
-                        </div>
-                    </div>
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
@@ -58,10 +63,10 @@
                     <field name="bike_id"/>
                     <field name="partner_id"/>
                     <filter name="active" string="All Active Bike Rents"
-                            domain="[('rent_stop', '&gt;=', (datetime.date.today()).strftime('%Y-%m-%d'))]"/>
+                            domain="[('rent_stop', '&gt;=', context_today.strftime('%Y-%m-%d'))]"/>
                     <filter name="active_current" string="Currently Rented Bikes"
-                            domain="[('rent_stop', '&gt;=', (datetime.date.today()).strftime('%Y-%m-%d')),
-                            ('rent_start', '&lt;=', (datetime.date.today()).strftime('%Y-%m-%d'))]"/>
+                            domain="[('rent_stop', '&gt;=', context_today.strftime('%Y-%m-%d')),
+                            ('rent_start', '&lt;=', context_today.strftime('%Y-%m-%d'))]"/>
                     <filter name="free_rent" string="Free Rent" domain="[('price', '=', '0')]"/>
                     <group string="Group By">
                         <filter name="by_bike_id" string="Bike Model" context="{'group_by': 'bike_id'}"/>
@@ -95,8 +100,8 @@
                     <button type="action" name="%(bike_rent.action_window)d" string="User Rent History"
                             class="oe_stat_button" icon="fa-history" context="{'search_default_partner_id': id}"
                             attrs="{'invisible': [('company_type', '=', 'company')]}"/>
-                    <button type="action" name="%(bike_rent.action_window)d" string="Company Rent History"
-                            class="oe_stat_button" icon="fa-list-alt" context="{'search_default_partner_id': id}"
+                    <button type="object" name="company_rent_history" string="Company Rent History"
+                            class="oe_stat_button" icon="fa-list-alt"
                             attrs="{'invisible': [('company_type', '=', 'person')]}"/>
                 </div>
             </field>

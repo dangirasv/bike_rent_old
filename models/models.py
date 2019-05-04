@@ -35,9 +35,25 @@ class BikeRent(models.Model):
             raise exceptions.UserError('End of Rent Time cannot be earlier than Rent Start Time')
 
 
-class BikeTemplate(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     is_bike = fields.Boolean(string="It's a Bike", default=False)
     manufacturer = fields.Char(string='Manufacturer')
     model = fields.Char(string='Model')
+
+
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
+
+    def company_rent_history(self):
+        action = self.env.ref('bike_rent.bike_rent_tree_view')  # .search([('partner_id', '=', active_id)])
+        print(action.id)
+        return {
+            'name': "Company Rent History",
+            'type': 'ir.actions.act_window',
+            'res_model': 'bike.rent',
+            'view_mode': 'tree',
+            'view_id': action.id,
+            'domain': "['|', ('partner_id', '=', active_id), ('partner_id', 'child_of', active_id)]",
+        }
