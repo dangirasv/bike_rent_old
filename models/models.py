@@ -41,19 +41,25 @@ class ProductTemplate(models.Model):
     is_bike = fields.Boolean(string="It's a Bike", default=False)
     manufacturer = fields.Char(string='Manufacturer')
     model = fields.Char(string='Model')
+    rent_ids = fields.One2many('bike.rent', 'bike_id', string='Rent Records')
 
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    rent_ids = fields.One2many('bike.rent', 'partner_id', string='Rent Records')
+    rent_count = fields.Integer(compute='_compute_rent_count', string='Rent Count')
+
+    @api.depends('rent_ids')
+    def _compute_rent_count(self):
+        for record in self:
+            record.rent_count = len(record.rent_ids)
+
     def company_rent_history(self):
-        action = self.env.ref('bike_rent.bike_rent_tree_view')  # .search([('partner_id', '=', active_id)])
-        print(action.id)
         return {
             'name': "Company Rent History",
             'type': 'ir.actions.act_window',
             'res_model': 'bike.rent',
-            'view_mode': 'tree',
-            'view_id': action.id,
+            'view_mode': 'tree,form',
             'domain': "['|', ('partner_id', '=', active_id), ('partner_id', 'child_of', active_id)]",
         }

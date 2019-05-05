@@ -44,7 +44,8 @@
             <field name="name">Rented Bikes List</field>
             <field name="model">bike.rent</field>
             <field name="arch" type="xml">
-                <tree default_order='rent_start'>
+                <tree default_order='rent_start' decoration-muted="rent_stop&lt;current_date"
+                      decoration-success="rent_stop&gt;=current_date" decoration-info="rent_start&gt;current_date">
                     <field name="bike_id"/>
                     <field name="partner_id"/>
                     <field name="rent_start"/>
@@ -63,10 +64,10 @@
                     <field name="bike_id"/>
                     <field name="partner_id"/>
                     <filter name="active" string="All Active Bike Rents"
-                            domain="[('rent_stop', '&gt;=', context_today.strftime('%Y-%m-%d'))]"/>
+                            domain="[('rent_stop', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
                     <filter name="active_current" string="Currently Rented Bikes"
-                            domain="[('rent_stop', '&gt;=', context_today.strftime('%Y-%m-%d')),
-                            ('rent_start', '&lt;=', context_today.strftime('%Y-%m-%d'))]"/>
+                            domain="[('rent_stop', '&gt;=', context_today().strftime('%Y-%m-%d')),
+                            ('rent_start', '&lt;=', context_today().strftime('%Y-%m-%d'))]"/>
                     <filter name="free_rent" string="Free Rent" domain="[('price', '=', '0')]"/>
                     <group string="Group By">
                         <filter name="by_bike_id" string="Bike Model" context="{'group_by': 'bike_id'}"/>
@@ -88,6 +89,19 @@
                     <field name="manufacturer" attrs="{'invisible': [('is_bike', '=', False)]}"/>
                     <field name="model" attrs="{'invisible': [('is_bike', '=', False)]}"/>
                 </field>
+                <notebook position="inside">
+                    <page string="Rent Records">
+                        <field name="rent_ids">
+                            <tree string="Registered Rents">
+                                <field name="partner_id"/>
+                                <field name="rent_start"/>
+                                <field name="rent_stop"/>
+                                <field name="rent_time"/>
+                                <field name="price"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
             </field>
         </record>
 
@@ -97,13 +111,32 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <div name="button_box" position="inside">
-                    <button type="action" name="%(bike_rent.action_window)d" string="User Rent History"
+                    <field name="rent_ids" invisible="1"/>
+                    <button type="action" name="%(bike_rent.action_window)d"
                             class="oe_stat_button" icon="fa-history" context="{'search_default_partner_id': id}"
-                            attrs="{'invisible': [('company_type', '=', 'company')]}"/>
+                            attrs="{'invisible': [('company_type', '=', 'company')]}">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="rent_count"/></span>
+                            <span class="o_stat_text">Rent History</span>
+                        </div>
+                    </button>
                     <button type="object" name="company_rent_history" string="Company Rent History"
                             class="oe_stat_button" icon="fa-list-alt"
                             attrs="{'invisible': [('company_type', '=', 'person')]}"/>
                 </div>
+                <notebook position="inside">
+                    <page string="Rent Records">
+                        <field name="rent_ids">
+                            <tree string="Registered Rents">
+                                <field name="bike_id"/>
+                                <field name="rent_start"/>
+                                <field name="rent_stop"/>
+                                <field name="rent_time"/>
+                                <field name="price"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
             </field>
         </record>
 
