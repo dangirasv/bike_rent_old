@@ -38,7 +38,7 @@ class BikeRent(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    is_bike = fields.Boolean(string="It's a Bike", default=False)
+    is_bike = fields.Boolean(string="It's a Bike")
     manufacturer = fields.Char(string='Manufacturer')
     model = fields.Char(string='Model')
     rent_ids = fields.One2many('bike.rent', 'bike_id', string='Rent Records')
@@ -62,7 +62,7 @@ class ResPartner(models.Model):
         for record in self:
             if record.company_type == 'company':
                 record.company_rent_count = len(self.env['bike.rent'].search(['|', ('partner_id', '=', self.id),
-                                                                      ('partner_id', 'child_of', self.id)]))
+                                                                              ('partner_id', 'child_of', self.id)]))
 
     def company_rent_history(self):
         return {

@@ -15,4 +15,7 @@
         'security/ir.model.access.csv',
         'views/views.xml',
     ],
+    'demo': [
+        'data/bike_rent_demo.xml',
+    ],
 }
