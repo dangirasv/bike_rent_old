@@ -76,6 +76,15 @@
     </field>
 </record>
 
+<record model="ir.actions.act_window" id="bike_rent.action_window">
+    <field name="name">Bike Rent</field>
+    <field name="res_model">bike.rent</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p>Please click the "Create" button to start with your first entry</p>
+    </field>
+</record>
+
 <record model="ir.ui.view" id="bike_product_form_view">
     <field name="name">Bike Template</field>
     <field name="model">product.product</field>
@@ -143,22 +152,13 @@
     </field>
 </record>
 
-<record model="ir.actions.act_window" id="bike_rent.action_window">
-    <field name="name">Bike Rent</field>
-    <field name="res_model">bike.rent</field>
-    <field name="view_mode">tree,form</field>
-    <field name="help" type="html">
-        <p>Please click the "Create" button to start with your first entry</p>
-    </field>
-</record>
-
-<record model="ir.actions.act_window" id="bike_rent.users">
+<record model="ir.actions.act_window" id="bike_rent.users_action">
     <field name="name">Users</field>
     <field name="res_model">res.partner</field>
     <field name="view_mode">tree,form</field>
 </record>
 
-<record model="ir.actions.act_window" id="bike_rent.products">
+<record model="ir.actions.act_window" id="bike_rent.products_action">
     <field name="name">Products</field>
     <field name="res_model">product.product</field>
     <field name="view_mode">tree,form</field>
@@ -174,10 +174,10 @@
           action="bike_rent.action_window"/>
 
 <menuitem name="Users" id="bike_rent.menu_2_users" parent="bike_rent.menu_2"
-          action="bike_rent.users"/>
+          action="bike_rent.users_action"/>
 
 <menuitem name="Products" id="bike_rent.menu_2_products" parent="bike_rent.menu_2"
-          action="bike_rent.products"/>
+          action="bike_rent.products_action"/>
 
 </data>
 </odoo>
