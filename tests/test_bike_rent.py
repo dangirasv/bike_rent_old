@@ -1,7 +1,8 @@
 from odoo import exceptions
-from odoo.tests.common import TransactionCase
+from odoo.tests import TransactionCase, tagged
 
 
+@tagged('standard')
 class TestBikeRent(TransactionCase):
 
     def test_verify_stop_date(self):
