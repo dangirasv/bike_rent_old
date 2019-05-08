@@ -22,10 +22,6 @@
 <record id="product_product_bike1" model="product.product">
     <field name="product_tmpl_id" ref="product_template_bike1"/>
 </record>
-
-<record id="product_product_bike2" model="product.product">
-    <field name="product_tmpl_id" ref="product_template_bike2"/>
-</record>
 -->
 <record id="res_partner_1" model="res.partner">
     <field name="name">Versada</field>
