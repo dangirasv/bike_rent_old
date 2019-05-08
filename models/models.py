@@ -13,7 +13,7 @@ class BikeRent(models.Model):
                               domain=[('is_bike', '=', True)])
     bike_description = fields.Text(related='bike_id.description', string='Bike Description', store=True)
     image = fields.Binary(related='bike_id.image', string='Bike Picture', store=True)
-    partner_id = fields.Many2one('res.partner', string='Customer Name')
+    partner_id = fields.Many2one('res.partner', string='Customer Name', required=True)
     price = fields.Float(string='Bike Rent Price')
     rent_start = fields.Datetime(string='Rent Start Time', default=fields.Datetime.now, required=True)
     rent_stop = fields.Datetime(string='End of Rent Time', required=True)

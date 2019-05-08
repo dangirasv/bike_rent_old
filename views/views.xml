@@ -12,7 +12,7 @@
                 <div id="right" style="float:right; width:65%;">
                     <group>
                         <separator string="Bike Info" colspan="2"/>
-                        <field name="bike_id"/>
+                        <field name="bike_id" options="{'no_create': True}"/>
                         <field name="bike_description"/>
                     </group>
                     <group>
@@ -80,6 +80,7 @@
     <field name="name">Bike Rent</field>
     <field name="res_model">bike.rent</field>
     <field name="view_mode">tree,form</field>
+    <field name="context">{'search_default_active':1}</field>
     <field name="help" type="html">
         <p>Please click the "Create" button to start with your first entry</p>
     </field>
